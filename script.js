@@ -7,6 +7,54 @@ const bgVideo = document.getElementById("bgVideo");
 const questionText = document.getElementById("questionText");
 const centerBox = document.getElementById("centerBox");
 
+function moveNoButtonNearBox() {
+    const boxRect = centerBox.getBoundingClientRect();
+
+    const minOffset = 20;   // not too close
+    const maxOffset = 80;   // not too far
+
+    const directions = ['top','bottom','left','right'];
+    const dir = directions[Math.floor(Math.random() * directions.length)];
+
+    let newX, newY;
+
+    switch(dir){
+        case 'top':
+            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
+            newY = boxRect.top - minOffset - Math.random()*(maxOffset - minOffset);
+            break;
+        case 'bottom':
+            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
+            newY = boxRect.bottom + minOffset + Math.random()*(maxOffset - minOffset);
+            break;
+        case 'left':
+            newX = boxRect.left - minOffset - Math.random()*(maxOffset - minOffset);
+            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
+            break;
+        case 'right':
+            newX = boxRect.right + minOffset + Math.random()*(maxOffset - minOffset);
+            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
+            break;
+    }
+
+    // Make sure button stays in viewport
+    newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
+    newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
+
+    noButton.style.left = newX + "px";
+    noButton.style.top = newY + "px";
+
+    // Optional: floating heart
+    createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
+}
+
+// Move No button when clicking outside the white box
+document.addEventListener("click", (e) => {
+    if (!centerBox.contains(e.target)) {
+        moveNoButtonNearBox();
+    }
+});
+
 let count = 0;
 const texts = [
     "Sure naba?",
@@ -115,3 +163,4 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
