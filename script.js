@@ -72,7 +72,7 @@ function showSpeech(text){
 // Move No outside
 function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
-    const margin = 10;
+    const margin = 30;
     const maxOffset = 80;
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random() * directions.length)];
@@ -133,3 +133,4 @@ yesButton.addEventListener("click", ()=>{
         createHeart(Math.random()*window.innerWidth, window.innerHeight);
     }
 });
+
