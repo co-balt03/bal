@@ -69,15 +69,21 @@ noButton.addEventListener("click", ()=>{
     }
 });
 
-yesButton.addEventListener("click", ()=> {
+yesButton.addEventListener("click", () => {
     finalContent.style.display = "block";
     yesButton.style.display = "none";
     noButton.style.display = "none";
-    
-    bgMusic.play();
 
+    // Show and play background video with fade
     const bgVideo = document.getElementById("bgVideo");
+    bgVideo.style.display = "block"; // make it visible
+    setTimeout(() => {
+        bgVideo.style.opacity = 1; // fade in
+    }, 50);
     bgVideo.play();
+
+    // Play background music
+    bgMusic.play();
 });
 
 
