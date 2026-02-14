@@ -2,9 +2,9 @@ const noButton = document.getElementById("no");
 const yesButton = document.getElementById("yes");
 const finalContent = document.getElementById("finalContent");
 const bgMusic = document.getElementById("bgMusic");
-const speechController = document.getElementById("speechController");
 const bgVideo = document.getElementById("bgVideo");
 const centerBox = document.getElementById("centerBox");
+const speechController = document.getElementById("speechController"); // container for bubbles
 
 let count = 0;
 const texts = [
@@ -17,7 +17,17 @@ const texts = [
     "Ms Ace :c"
 ];
 
-// Function to create speech bubble
+// Create hearts
+function createHeart(x, y){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+}
+
+// Dialogue bubble function
 function showSpeech(text){
     const bubble = document.createElement("div");
     bubble.className = "speech show";
@@ -26,11 +36,10 @@ function showSpeech(text){
 
     const boxRect = centerBox.getBoundingClientRect();
     const directions = ['top','bottom','left','right'];
-    const dir = directions[Math.floor(Math.random()*directions.length)];
+    const dir = directions[Math.floor(Math.random() * directions.length)];
     let x, y;
-
     const margin = 10;
-    const maxOffset = 100;
+    const maxOffset = 80;
 
     switch(dir){
         case 'top':
@@ -54,98 +63,73 @@ function showSpeech(text){
     x = Math.max(0, Math.min(window.innerWidth - bubble.offsetWidth, x));
     y = Math.max(0, Math.min(window.innerHeight - bubble.offsetHeight, y));
 
-    bubble.style.left = x + 'px';
-    bubble.style.top = y + 'px';
+    bubble.style.left = x + "px";
+    bubble.style.top = y + "px";
 
-    setTimeout(()=>{ bubble.remove(); }, 1500);
+    setTimeout(()=> bubble.remove(), 1500);
 }
 
-// Function to create floating hearts
-function createHeart(x, y){
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),2000);
-}
-
-// Handle No button click
-noButton.addEventListener("click", ()=>{
-    if(count < texts.length){
-        showSpeech(texts[count]);
-        count++;
-        popNoButtonOutside(); // now moves outside after click
-    } else {
-        noButton.style.display = "none";
-    }
-});
-
-// Function to pop No button around the box (like speech bubbles)
+// Move No outside
 function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
-
-    const margin = 10; // minimal distance from box
-    const maxOffset = 80; // max distance
-
+    const margin = 10;
+    const maxOffset = 80;
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random() * directions.length)];
 
     let newX, newY;
 
-    switch(dir) {
+    switch(dir){
         case 'top':
-            newX = boxRect.left + Math.random() * (boxRect.width - noButton.offsetWidth);
-            newY = boxRect.top - noButton.offsetHeight - margin - Math.random() * maxOffset;
+            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
+            newY = boxRect.top - noButton.offsetHeight - margin - Math.random()*maxOffset;
             break;
         case 'bottom':
-            newX = boxRect.left + Math.random() * (boxRect.width - noButton.offsetWidth);
-            newY = boxRect.bottom + margin + Math.random() * maxOffset;
+            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
+            newY = boxRect.bottom + margin + Math.random()*maxOffset;
             break;
         case 'left':
-            newX = boxRect.left - noButton.offsetWidth - margin - Math.random() * maxOffset;
-            newY = boxRect.top + Math.random() * (boxRect.height - noButton.offsetHeight);
+            newX = boxRect.left - noButton.offsetWidth - margin - Math.random()*maxOffset;
+            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
             break;
         case 'right':
-            newX = boxRect.right + margin + Math.random() * maxOffset;
-            newY = boxRect.top + Math.random() * (boxRect.height - noButton.offsetHeight);
+            newX = boxRect.right + margin + Math.random()*maxOffset;
+            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
             break;
     }
 
-    // Move the button
-    noButton.style.position = 'absolute';
-    noButton.style.left = `${newX}px`;
-    noButton.style.top = `${newY}px`;
+    newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
+    newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
+
+    noButton.style.position = "absolute";
+    noButton.style.left = newX + "px";
+    noButton.style.top = newY + "px";
+
+    createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
 }
 
-// Trigger pop when clicking No
+// No click: show dialogue + pop button
 noButton.addEventListener("click", ()=>{
-    popNoButtonOutside();
+    if(count < texts.length){
+        showSpeech(texts[count]);
+        count++;
+        popNoButtonOutside();
+    } else {
+        noButton.style.display = "none";
+    }
 });
 
-// Handle Yes button click
+// Yes click: show final message
 yesButton.addEventListener("click", ()=>{
-    centerBox.style.display = "none"; // hide box
+    centerBox.style.display = "none";
+    finalContent.style.display = "block";
 
-    finalContent.style.display = "block"; // show final message
-
-    // play bg video & music
     bgVideo.style.display = "block";
-    setTimeout(()=>{ bgVideo.style.opacity = 1; },50);
+    setTimeout(()=> bgVideo.style.opacity = 1, 50);
     bgVideo.play();
     bgMusic.play();
 
-    // floating hearts
     for(let i=0;i<10;i++){
-        const randX = Math.random()*window.innerWidth;
-        const randY = window.innerHeight;
-        createHeart(randX, randY);
+        createHeart(Math.random()*window.innerWidth, window.innerHeight);
     }
 });
-
-
-
-
-
-
-
