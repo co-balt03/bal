@@ -18,21 +18,19 @@ const texts = [
     "Ms Ace :c"
 ];
 
-// Show speech bubble
 function showSpeech(text){
     const bubble = document.createElement("div");
     bubble.className = "speech show";
     bubble.innerText = text;
     speechController.appendChild(bubble);
 
-    // Random position around the white box (top, bottom, left, right)
     const boxRect = centerBox.getBoundingClientRect();
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random()*directions.length)];
     let x, y;
 
-    const margin = 10; // minimum distance
-    const maxOffset = 100; // maximum distance
+    const margin = 10;
+    const maxOffset = 100;
 
     switch(dir){
         case 'top':
@@ -53,7 +51,6 @@ function showSpeech(text){
             break;
     }
 
-    // Prevent bubble from going outside viewport
     x = Math.max(0, Math.min(window.innerWidth - bubble.offsetWidth, x));
     y = Math.max(0, Math.min(window.innerHeight - bubble.offsetHeight, y));
 
@@ -63,7 +60,6 @@ function showSpeech(text){
     setTimeout(()=>{ bubble.remove(); }, 1500);
 }
 
-// Create floating heart
 function createHeart(x, y){
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -73,7 +69,6 @@ function createHeart(x, y){
     setTimeout(()=>heart.remove(),2000);
 }
 
-// No button click
 noButton.addEventListener("click", ()=>{
     if(count < texts.length){
         showSpeech(texts[count]);
@@ -84,7 +79,6 @@ noButton.addEventListener("click", ()=>{
     }
 });
 
-// Move No button inside white box randomly
 function moveNoButton(){
     const boxRect = centerBox.getBoundingClientRect();
     const yesRect = yesButton.getBoundingClientRect();
@@ -105,25 +99,19 @@ function moveNoButton(){
 }
 
 yesButton.addEventListener("click", ()=>{
-    // Hide the whole white box
     centerBox.style.display = "none";
 
-    // Show final message
     finalContent.style.display = "block";
 
-    // Show and fade-in video
     bgVideo.style.display = "block";
     setTimeout(()=>{ bgVideo.style.opacity = 1; },50);
     bgVideo.play();
 
-    // Play music
     bgMusic.play();
 
-    // Hearts for celebration
     for(let i=0;i<10;i++){
         const randX = Math.random()*window.innerWidth;
         const randY = window.innerHeight;
         createHeart(randX, randY);
     }
 });
-
