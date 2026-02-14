@@ -43,9 +43,9 @@ h1{
 
 .buttons {
     display: flex;
-    justify-content: center;  /* center horizontally */
+    justify-content: center; /* center horizontally */
     gap: 20px;               /* space between Yes and No */
-    flex-wrap: wrap;         /* if screen is narrow, buttons wrap */
+    flex-wrap: wrap;         /* wrap if too narrow */
 }
 
 #yes, #no {
@@ -54,18 +54,16 @@ h1{
     border-radius: 35px;
     border: none;
     cursor: pointer;
-    white-space: nowrap;
-    max-width: 220px;  /* ensures button does not overflow box */
-    flex-shrink: 0;    /* prevents shrinking */
+    white-space: nowrap; /* keeps text in one line */
 }
+
 #yes {
     background: #ff4d4d;
     color: white;
     box-shadow: 0 5px 15px rgba(255,77,77,0.5);
+    /* Remove max-width to let it grow with text */
 }
-#yes:hover{
-    transform: scale(1.05);
-}
+
 #no {
     background: #ff9999;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -137,6 +135,7 @@ h1{
     0%{transform: translateY(0) rotate(-45deg); opacity:0.8;}
     100%{transform: translateY(-150px) rotate(-45deg); opacity:0;}
 }
+
 
 
 
