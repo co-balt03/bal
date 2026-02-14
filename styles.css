@@ -30,7 +30,7 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     position: relative;
 
-    width: 95%;
+    width: 90%;
     max-width: 700px;
     min-width: 350px;
 }
@@ -43,9 +43,9 @@ h1{
 
 .buttons {
     display: flex;
-    justify-content: center; /* center horizontally */
-    gap: 20px;               /* space between Yes and No */
-    flex-wrap: wrap;         /* wrap if too narrow */
+    justify-content: center;  /* center horizontally */
+    gap: 20px;                /* space between buttons */
+    flex-wrap: wrap;          /* wrap if screen too narrow */
 }
 
 #yes, #no {
@@ -54,18 +54,17 @@ h1{
     border-radius: 35px;
     border: none;
     cursor: pointer;
-    white-space: nowrap; /* keeps text in one line */
+    white-space: nowrap;   /* important! keeps text in one line */
 }
 
 #yes {
-    background: #ff4d4d;
-    color: white;
+    background:#ff4d4d;
+    color:white;
     box-shadow: 0 5px 15px rgba(255,77,77,0.5);
-    /* Remove max-width to let it grow with text */
 }
 
 #no {
-    background: #ff9999;
+    background:#ff9999;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
@@ -135,6 +134,7 @@ h1{
     0%{transform: translateY(0) rotate(-45deg); opacity:0.8;}
     100%{transform: translateY(-150px) rotate(-45deg); opacity:0;}
 }
+
 
 
 
