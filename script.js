@@ -4,16 +4,17 @@ const finalContent = document.getElementById("finalContent");
 const bgMusic = document.getElementById("bgMusic");
 const speechController = document.getElementById("speechController");
 const bgVideo = document.getElementById("bgVideo");
-const centerBox = document.querySelector(".centerBox");
+const questionText = document.getElementById("questionText");
+const centerBox = document.getElementById("centerBox");
 
 let count = 0;
 const texts = [
-    "Sure ka ba?",
+    "Sure naba?",
     "Hindi nga?",
-    "Ayaw mo talaga?",
-    "Please, I need you!",
-    "Hoy seryoso!",
-    "Bili na!!",
+    "Ayaw mo na talaga?",
+    "Please?",
+    "Uyy",
+    "...",
     "Ms Ace :c"
 ];
 
@@ -23,30 +24,43 @@ function showSpeech(text){
     bubble.className = "speech show";
     bubble.innerText = text;
     speechController.appendChild(bubble);
-    bubble.style.left = "0px"; 
-    bubble.style.top = "8px";
+
+    // Random position around the white box (top, bottom, left, right)
+    const boxRect = centerBox.getBoundingClientRect();
+    const directions = ['top','bottom','left','right'];
+    const dir = directions[Math.floor(Math.random()*directions.length)];
+    let x, y;
+
+    const margin = 10; // minimum distance
+    const maxOffset = 100; // maximum distance
+
+    switch(dir){
+        case 'top':
+            x = boxRect.left + Math.random()*(boxRect.width - bubble.offsetWidth);
+            y = boxRect.top - bubble.offsetHeight - margin - Math.random()*maxOffset;
+            break;
+        case 'bottom':
+            x = boxRect.left + Math.random()*(boxRect.width - bubble.offsetWidth);
+            y = boxRect.bottom + margin + Math.random()*maxOffset;
+            break;
+        case 'left':
+            x = boxRect.left - bubble.offsetWidth - margin - Math.random()*maxOffset;
+            y = boxRect.top + Math.random()*(boxRect.height - bubble.offsetHeight);
+            break;
+        case 'right':
+            x = boxRect.right + margin + Math.random()*maxOffset;
+            y = boxRect.top + Math.random()*(boxRect.height - bubble.offsetHeight);
+            break;
+    }
+
+    // Prevent bubble from going outside viewport
+    x = Math.max(0, Math.min(window.innerWidth - bubble.offsetWidth, x));
+    y = Math.max(0, Math.min(window.innerHeight - bubble.offsetHeight, y));
+
+    bubble.style.left = x + 'px';
+    bubble.style.top = y + 'px';
 
     setTimeout(()=>{ bubble.remove(); }, 1500);
-}
-
-// Move No button randomly inside white box
-function moveButton(){
-    const yesRect = yesButton.getBoundingClientRect();
-    const boxRect = centerBox.getBoundingClientRect();
-
-    let newX, newY;
-    do {
-        newX = Math.random() * (boxRect.width - noButton.offsetWidth);
-        newY = Math.random() * (boxRect.height - noButton.offsetHeight);
-    } while (
-        newX < yesRect.right - boxRect.left && newX + noButton.offsetWidth > yesRect.left - boxRect.left &&
-        newY < yesRect.bottom - boxRect.top && newY + noButton.offsetHeight > yesRect.top - boxRect.top
-    );
-
-    noButton.style.left = newX + "px";
-    noButton.style.top = newY + "px";
-
-    createHeart(newX + boxRect.left + noButton.offsetWidth/2, newY + boxRect.top + noButton.offsetHeight/2);
 }
 
 // Create floating heart
@@ -64,17 +78,41 @@ noButton.addEventListener("click", ()=>{
     if(count < texts.length){
         showSpeech(texts[count]);
         count++;
-        moveButton();
+        moveNoButton();
     } else {
         noButton.style.display = "none";
     }
 });
 
+// Move No button inside white box randomly
+function moveNoButton(){
+    const boxRect = centerBox.getBoundingClientRect();
+    const yesRect = yesButton.getBoundingClientRect();
+
+    let newX, newY;
+    do {
+        newX = Math.random()*(boxRect.width - noButton.offsetWidth);
+        newY = Math.random()*(boxRect.height - noButton.offsetHeight);
+    } while (
+        newX < yesRect.right - boxRect.left && newX + noButton.offsetWidth > yesRect.left - boxRect.left &&
+        newY < yesRect.bottom - boxRect.top && newY + noButton.offsetHeight > yesRect.top - boxRect.top
+    );
+
+    noButton.style.left = newX + "px";
+    noButton.style.top = newY + "px";
+
+    createHeart(boxRect.left + newX + noButton.offsetWidth/2, boxRect.top + newY + noButton.offsetHeight/2);
+}
+
 // Yes button click
 yesButton.addEventListener("click", ()=>{
-    finalContent.style.display = "block";
+    // Hide question text and buttons
+    questionText.style.display = "none";
     yesButton.style.display = "none";
     noButton.style.display = "none";
+
+    // Show final message
+    finalContent.style.display = "block";
 
     // Show and fade-in video
     bgVideo.style.display = "block";
@@ -86,7 +124,7 @@ yesButton.addEventListener("click", ()=>{
 
     // Hearts for celebration
     for(let i=0;i<10;i++){
-        const randX = Math.random() * window.innerWidth;
+        const randX = Math.random()*window.innerWidth;
         const randY = window.innerHeight;
         createHeart(randX, randY);
     }
