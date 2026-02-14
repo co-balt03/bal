@@ -41,37 +41,39 @@ h1{
     margin-bottom:20px;
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 20px;      /* space between Yes and No */
+    flex-wrap: wrap; /* wrap if screen is too narrow */
 }
 
-button{
-    padding:12px 28px;
-    margin:10px;
-    border:none;
-    border-radius:35px;
-    font-size:16px;
-    cursor:pointer;
+#yes, #no {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 35px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 220px; /* ensures both fit in box */
+    flex-shrink: 0;   /* prevent shrinking */
+}
+
+#yes {
+    background: #ff4d4d;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255,77,77,0.5);
     transition: all 0.3s ease;
 }
 
-#yes{
-    background:#ff4d4d;
-    color:white;
-    box-shadow: 0 5px 15px rgba(255,77,77,0.5);
-}
-
-#yes:hover{
+#yes:hover {
     transform: scale(1.1);
 }
 
-#no{
-    background:#ff9999;
-    position:absolute;
+#no {
+    background: #ff9999;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
 
 .speech{
@@ -140,5 +142,6 @@ button{
     0%{transform: translateY(0) rotate(-45deg); opacity:0.8;}
     100%{transform: translateY(-150px) rotate(-45deg); opacity:0;}
 }
+
 
 
