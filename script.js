@@ -85,7 +85,7 @@ noButton.addEventListener("click", ()=>{
 function popNoButtonOutside(){
     const boxRect = centerBox.getBoundingClientRect();
     const minOffset = 40;  // not too close
-    const maxOffset = 100; // not too far
+    const maxOffset = 50; // not too far
 
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random()*directions.length)];
@@ -143,5 +143,6 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
 
