@@ -4,7 +4,7 @@ const finalContent = document.getElementById("finalContent");
 const bgMusic = document.getElementById("bgMusic");
 const bgVideo = document.getElementById("bgVideo");
 const centerBox = document.getElementById("centerBox");
-const speechController = document.getElementById("speechController"); // container for bubbles
+const speechController = document.getElementById("speechController");
 
 let count = 0;
 const texts = [
@@ -17,17 +17,7 @@ const texts = [
     "Ms Ace :c"
 ];
 
-// Create hearts
-function createHeart(x, y){
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),2000);
-}
-
-// Dialogue bubble function
+// Dialogue bubble
 function showSpeech(text){
     const bubble = document.createElement("div");
     bubble.className = "speech show";
@@ -36,7 +26,7 @@ function showSpeech(text){
 
     const boxRect = centerBox.getBoundingClientRect();
     const directions = ['top','bottom','left','right'];
-    const dir = directions[Math.floor(Math.random() * directions.length)];
+    const dir = directions[Math.floor(Math.random()*directions.length)];
     let x, y;
     const margin = 10;
     const maxOffset = 80;
@@ -69,57 +59,48 @@ function showSpeech(text){
     setTimeout(()=> bubble.remove(), 1500);
 }
 
-// Move No outside
-function popNoButtonOutside() {
+// Hearts
+function createHeart(x, y){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=> heart.remove(), 2000);
+}
+
+// Move No inside box when clicked
+function moveNoButton(){
     const boxRect = centerBox.getBoundingClientRect();
-    const margin = 30;
-    const maxOffset = 80;
-    const directions = ['top','bottom','left','right'];
-    const dir = directions[Math.floor(Math.random() * directions.length)];
+    const yesRect = yesButton.getBoundingClientRect();
 
     let newX, newY;
+    do {
+        newX = Math.random()*(boxRect.width - noButton.offsetWidth);
+        newY = Math.random()*(boxRect.height - noButton.offsetHeight);
+    } while (
+        newX < yesRect.right - boxRect.left && newX + noButton.offsetWidth > yesRect.left - boxRect.left &&
+        newY < yesRect.bottom - boxRect.top && newY + noButton.offsetHeight > yesRect.top - boxRect.top
+    );
 
-    switch(dir){
-        case 'top':
-            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
-            newY = boxRect.top - noButton.offsetHeight - margin - Math.random()*maxOffset;
-            break;
-        case 'bottom':
-            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
-            newY = boxRect.bottom + margin + Math.random()*maxOffset;
-            break;
-        case 'left':
-            newX = boxRect.left - noButton.offsetWidth - margin - Math.random()*maxOffset;
-            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
-            break;
-        case 'right':
-            newX = boxRect.right + margin + Math.random()*maxOffset;
-            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
-            break;
-    }
-
-    newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
-    newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
-
-    noButton.style.position = "absolute";
     noButton.style.left = newX + "px";
     noButton.style.top = newY + "px";
 
-    createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
+    createHeart(boxRect.left + newX + noButton.offsetWidth/2, boxRect.top + newY + noButton.offsetHeight/2);
 }
 
-// No click: show dialogue + pop button
+// No click
 noButton.addEventListener("click", ()=>{
     if(count < texts.length){
         showSpeech(texts[count]);
         count++;
-        popNoButtonOutside();
+        moveNoButton();
     } else {
         noButton.style.display = "none";
     }
 });
 
-// Yes click: show final message
+// Yes click
 yesButton.addEventListener("click", ()=>{
     centerBox.style.display = "none";
     finalContent.style.display = "block";
@@ -127,10 +108,10 @@ yesButton.addEventListener("click", ()=>{
     bgVideo.style.display = "block";
     setTimeout(()=> bgVideo.style.opacity = 1, 50);
     bgVideo.play();
+
     bgMusic.play();
 
     for(let i=0;i<10;i++){
         createHeart(Math.random()*window.innerWidth, window.innerHeight);
     }
 });
-
