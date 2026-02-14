@@ -104,12 +104,9 @@ function moveNoButton(){
     createHeart(boxRect.left + newX + noButton.offsetWidth/2, boxRect.top + newY + noButton.offsetHeight/2);
 }
 
-// Yes button click
 yesButton.addEventListener("click", ()=>{
-    // Hide question text and buttons
-    questionText.style.display = "none";
-    yesButton.style.display = "none";
-    noButton.style.display = "none";
+    // Hide the whole white box
+    centerBox.style.display = "none";
 
     // Show final message
     finalContent.style.display = "block";
@@ -129,3 +126,4 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
