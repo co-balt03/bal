@@ -49,20 +49,21 @@ h1{
 }
 
 #yes, #no {
-    padding: 12px 20px;
+    padding: 12px 25px;      /* enough horizontal padding */
     font-size: 16px;
     border-radius: 35px;
     border: none;
     cursor: pointer;
-    white-space: nowrap;
-    max-width: 220px; /* ensures button fits text */
-    flex-shrink: 0;   /* prevents shrinking on small screens */
-    transition: all 0.3s ease;
+    white-space: nowrap;     /* keep text in one line */
+    min-width: 100px;        /* ensures button isn’t too small */
+    max-width: none;         /* allow button to grow with text */
+    flex-shrink: 0;          /* don’t shrink */
+    transition: transform 0.3s ease;
 }
 
 #yes {
-    background: #ff4d4d;
-    color: white;
+    background:#ff4d4d;
+    color:white;
     box-shadow: 0 5px 15px rgba(255,77,77,0.5);
 }
 
@@ -71,9 +72,9 @@ h1{
 }
 
 #no {
-    background: #ff9999;
+    background:#ff9999;
+    position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    position: relative; /* default inside box until clicked */
 }
 
 .speech{
@@ -142,6 +143,7 @@ h1{
     0%{transform: translateY(0) rotate(-45deg); opacity:0.8;}
     100%{transform: translateY(-150px) rotate(-45deg); opacity:0;}
 }
+
 
 
 
