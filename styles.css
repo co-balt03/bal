@@ -8,8 +8,8 @@
     object-fit:cover;
     filter: blur(10px);
     z-index:1;
-    display: none;  /* hidden initially */
-    opacity: 0;     /* for fade-in */
+    display: none;
+    opacity: 0;
     transition: opacity 1.5s ease;
 }
 
@@ -80,12 +80,12 @@ button{
     padding:10px 15px;
     border-radius:15px;
     font-size:14px;
-    max-width:220px;
+    max-width:180px;
     pointer-events:none;
     opacity:0;
     transform: scale(0.5);
     transition: all 0.3s ease;
-    z-index:3;
+    z-index:4;
 }
 
 .speech.show{
@@ -101,11 +101,7 @@ button{
     margin-top:30px;
     text-shadow: 1px 1px 5px #990000;
     text-align:center;
-}
-
-.loveMessage{
     font-size:18px;
-    margin-top:10px;
 }
 
 /* Floating hearts */
@@ -118,7 +114,7 @@ button{
     animation: floatUp 2s ease forwards;
     opacity: 0.8;
     border-radius: 5px 5px 0 0;
-    z-index:4;
+    z-index:5;
 }
 
 .heart::before,
