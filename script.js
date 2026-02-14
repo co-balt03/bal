@@ -81,12 +81,12 @@ noButton.addEventListener("click", ()=>{
     }
 });
 
-// Function to pop No outside the box
+// Function to pop No button around the box (like speech bubbles)
 function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
 
-    const margin = 10;  // minimal distance from box
-    const maxOffset = 80; // max random distance
+    const margin = 10; // minimal distance from box
+    const maxOffset = 80; // max distance
 
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random() * directions.length)];
@@ -112,15 +112,13 @@ function popNoButtonOutside() {
             break;
     }
 
-    // Keep inside viewport
-    newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
-    newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
-
+    // Move the button
     noButton.style.position = 'absolute';
-    noButton.style.left = newX + 'px';
-    noButton.style.top = newY + 'px';
-};
+    noButton.style.left = `${newX}px`;
+    noButton.style.top = `${newY}px`;
+}
 
+// Trigger pop when clicking No
 noButton.addEventListener("click", ()=>{
     popNoButtonOutside();
 });
@@ -144,6 +142,7 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
 
 
