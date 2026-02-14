@@ -118,9 +118,11 @@ function popNoButtonOutside(){
     noButton.style.position = 'absolute';
     noButton.style.left = newX + 'px';
     noButton.style.top = newY + 'px';
-
-    createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
 }
+noButton.addEventListener("click", ()=>{
+    popNoButtonOutside(); // No jumps outside the white box
+});
+
 
 // Handle Yes button click
 yesButton.addEventListener("click", ()=>{
@@ -141,4 +143,5 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
