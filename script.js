@@ -84,8 +84,8 @@ noButton.addEventListener("click", ()=>{
 // Function to pop No outside the box
 function popNoButtonOutside(){
     const boxRect = centerBox.getBoundingClientRect();
-    const minOffset = 40;
-    const maxOffset = 100;
+    const minOffset = 40;  // not too close
+    const maxOffset = 100; // not too far
 
     const directions = ['top','bottom','left','right'];
     const dir = directions[Math.floor(Math.random()*directions.length)];
@@ -111,7 +111,7 @@ function popNoButtonOutside(){
             break;
     }
 
-    // Clamp inside viewport
+    // clamp inside viewport
     newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
     newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
 
@@ -141,3 +141,4 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
