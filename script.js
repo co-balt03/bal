@@ -7,15 +7,14 @@ const bgVideo = document.getElementById("bgVideo");
 const questionText = document.getElementById("questionText");
 const centerBox = document.getElementById("centerBox");
 
+// Function to move No outside the box randomly (pop)
 function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
-
-    // define how far it pops outside the box
-    const minOffset = 40; // closest to box
-    const maxOffset = 100; // farthest
+    const minOffset = 40;
+    const maxOffset = 100;
 
     const directions = ['top','bottom','left','right'];
-    const dir = directions[Math.floor(Math.random()*directions.length)];
+    const dir = directions[Math.floor(Math.random() * directions.length)];
 
     let newX, newY;
 
@@ -38,20 +37,18 @@ function popNoButtonOutside() {
             break;
     }
 
-    // keep inside viewport
+    // Clamp inside viewport
     newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
     newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
 
-    // move No button absolutely on page
     noButton.style.position = 'absolute';
     noButton.style.left = newX + 'px';
     noButton.style.top = newY + 'px';
 
-    // optional heart
     createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
 }
 
-// listen for clicks outside the white box
+// Listen for clicks outside the white box
 document.addEventListener("click", (e)=>{
     if(!centerBox.contains(e.target)){
         popNoButtonOutside();
@@ -166,5 +163,6 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
 
