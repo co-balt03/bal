@@ -7,14 +7,15 @@ const bgVideo = document.getElementById("bgVideo");
 const questionText = document.getElementById("questionText");
 const centerBox = document.getElementById("centerBox");
 
-function moveNoButtonNearBox() {
+function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
 
-    const minOffset = 20;   // not too close
-    const maxOffset = 80;   // not too far
+    // define how far it pops outside the box
+    const minOffset = 40; // closest to box
+    const maxOffset = 100; // farthest
 
     const directions = ['top','bottom','left','right'];
-    const dir = directions[Math.floor(Math.random() * directions.length)];
+    const dir = directions[Math.floor(Math.random()*directions.length)];
 
     let newX, newY;
 
@@ -37,21 +38,23 @@ function moveNoButtonNearBox() {
             break;
     }
 
-    // Make sure button stays in viewport
+    // keep inside viewport
     newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
     newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
 
-    noButton.style.left = newX + "px";
-    noButton.style.top = newY + "px";
+    // move No button absolutely on page
+    noButton.style.position = 'absolute';
+    noButton.style.left = newX + 'px';
+    noButton.style.top = newY + 'px';
 
-    // Optional: floating heart
+    // optional heart
     createHeart(newX + noButton.offsetWidth/2, newY + noButton.offsetHeight/2);
 }
 
-// Move No button when clicking outside the white box
-document.addEventListener("click", (e) => {
-    if (!centerBox.contains(e.target)) {
-        moveNoButtonNearBox();
+// listen for clicks outside the white box
+document.addEventListener("click", (e)=>{
+    if(!centerBox.contains(e.target)){
+        popNoButtonOutside();
     }
 });
 
@@ -163,4 +166,5 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
