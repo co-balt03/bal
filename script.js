@@ -85,42 +85,45 @@ noButton.addEventListener("click", ()=>{
 function popNoButtonOutside() {
     const boxRect = centerBox.getBoundingClientRect();
 
-    const minOffset = 10; // closest to box
-    const maxOffset = 50; // farthest
+    const margin = 10;  // minimal distance from box
+    const maxOffset = 80; // max random distance
 
     const directions = ['top','bottom','left','right'];
-    let dir = directions[Math.floor(Math.random() * directions.length)];
+    const dir = directions[Math.floor(Math.random() * directions.length)];
 
     let newX, newY;
 
-    switch(dir){
+    switch(dir) {
         case 'top':
-            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
-            newY = Math.max(0, boxRect.top - minOffset - Math.random()*(maxOffset - minOffset));
+            newX = boxRect.left + Math.random() * (boxRect.width - noButton.offsetWidth);
+            newY = boxRect.top - noButton.offsetHeight - margin - Math.random() * maxOffset;
             break;
         case 'bottom':
-            newX = boxRect.left + Math.random()*(boxRect.width - noButton.offsetWidth);
-            newY = Math.min(window.innerHeight - noButton.offsetHeight, boxRect.bottom + minOffset + Math.random()*(maxOffset - minOffset));
+            newX = boxRect.left + Math.random() * (boxRect.width - noButton.offsetWidth);
+            newY = boxRect.bottom + margin + Math.random() * maxOffset;
             break;
         case 'left':
-            newX = Math.max(0, boxRect.left - minOffset - Math.random()*(maxOffset - minOffset));
-            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
+            newX = boxRect.left - noButton.offsetWidth - margin - Math.random() * maxOffset;
+            newY = boxRect.top + Math.random() * (boxRect.height - noButton.offsetHeight);
             break;
         case 'right':
-            newX = Math.min(window.innerWidth - noButton.offsetWidth, boxRect.right + minOffset + Math.random()*(maxOffset - minOffset));
-            newY = boxRect.top + Math.random()*(boxRect.height - noButton.offsetHeight);
+            newX = boxRect.right + margin + Math.random() * maxOffset;
+            newY = boxRect.top + Math.random() * (boxRect.height - noButton.offsetHeight);
             break;
     }
+
+    // Keep inside viewport
+    newX = Math.max(0, Math.min(window.innerWidth - noButton.offsetWidth, newX));
+    newY = Math.max(0, Math.min(window.innerHeight - noButton.offsetHeight, newY));
 
     noButton.style.position = 'absolute';
     noButton.style.left = newX + 'px';
     noButton.style.top = newY + 'px';
-}
+};
 
 noButton.addEventListener("click", ()=>{
-    popNoButtonOutside(); // No jumps outside the white box
+    popNoButtonOutside();
 });
-
 
 // Handle Yes button click
 yesButton.addEventListener("click", ()=>{
@@ -141,6 +144,7 @@ yesButton.addEventListener("click", ()=>{
         createHeart(randX, randY);
     }
 });
+
 
 
 
