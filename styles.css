@@ -1,13 +1,17 @@
 /* Fullscreen background video */
-#bgVideo{
+#bgVideo {
     position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     filter: blur(10px);
-    z-index:1;
+    z-index: 1;
+
+    display: none; /* hide video at first */
+    opacity: 0;    /* optional for fade-in effect */
+    transition: opacity 1.5s ease; /* smooth fade */
 }
 
 /* Overlay content floats above video */
@@ -129,3 +133,4 @@ button{
     0%{transform: translateY(0) rotate(-45deg); opacity:0.8;}
     100%{transform: translateY(-150px) rotate(-45deg); opacity:0;}
 }
+
